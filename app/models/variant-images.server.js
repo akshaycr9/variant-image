@@ -207,10 +207,17 @@ async function ensureMetafieldDefinitions(admin) {
   }
 }
 
-const SHOP_SETTINGS_QUERY = `#graphql
-  query GetShopSettings {
+const SHOP_BASIC_QUERY = `#graphql
+  query GetShopBasic {
     shop {
       id
+    }
+  }
+`;
+
+const SHOP_SETTINGS_QUERY = `#graphql
+  query GetShopSettingsMetafield {
+    shop {
       metafield(namespace: "${METAFIELD_NAMESPACE}", key: "${SETTINGS_METAFIELD_KEY}") {
         value
       }
@@ -219,11 +226,21 @@ const SHOP_SETTINGS_QUERY = `#graphql
 `;
 
 async function getShopSettings(admin) {
-  const data = await adminGraphql(admin, SHOP_SETTINGS_QUERY);
-  return {
-    shopId: data.shop.id,
-    settings: normalizeSettings(data.shop.metafield?.value),
-  };
+  const basic = await adminGraphql(admin, SHOP_BASIC_QUERY);
+  const shopId = basic.shop.id;
+
+  try {
+    const data = await adminGraphql(admin, SHOP_SETTINGS_QUERY);
+    return {
+      shopId,
+      settings: normalizeSettings(data.shop.metafield?.value),
+    };
+  } catch {
+    return {
+      shopId,
+      settings: normalizeSettings({}),
+    };
+  }
 }
 
 const SAVE_SHOP_SETTINGS_MUTATION = `#graphql

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useFetcher, useLoaderData, useNavigate, useSearchParams } from "@remix-run/react";
+import { json } from "@remix-run/node";
 import {
   Badge,
   BlockStack,
@@ -76,12 +77,12 @@ export const action = async ({ request }) => {
   const rawMapping = formData.get("mapping");
 
   if (typeof productId !== "string" || !productId) {
-    return Response.json({ ok: false, error: "Missing product id" }, { status: 400 });
+    return json({ ok: false, error: "Missing product id" }, { status: 400 });
   }
 
   const product = await getProductForAssignment(admin, productId);
   if (!product) {
-    return Response.json({ ok: false, error: "Product not found" }, { status: 404 });
+    return json({ ok: false, error: "Product not found" }, { status: 404 });
   }
 
   const resolvedOptionName =
@@ -90,7 +91,7 @@ export const action = async ({ request }) => {
       : product.options[0]?.name;
 
   if (!resolvedOptionName) {
-    return Response.json({ ok: false, error: "Product has no options" }, { status: 400 });
+    return json({ ok: false, error: "Product has no options" }, { status: 400 });
   }
 
   const optionValues = product.options.find((opt) => opt.name === resolvedOptionName)?.values ?? [];
@@ -106,7 +107,7 @@ export const action = async ({ request }) => {
     mapping,
   });
 
-  return Response.json({ ok: true, mapping, intent, optionName: resolvedOptionName });
+  return json({ ok: true, mapping, intent, optionName: resolvedOptionName });
 };
 
 function OptionValueCard({ value, imageCount, onAssign }) {

@@ -1,4 +1,5 @@
 import { useFetcher, useLoaderData } from "@remix-run/react";
+import { json } from "@remix-run/node";
 import { TitleBar } from "@shopify/app-bridge-react";
 import {
   Badge,
@@ -42,7 +43,7 @@ export const action = async ({ request }) => {
     hideUnassignedImages,
   });
 
-  return Response.json({ ok: true, settings: saved });
+  return json({ ok: true, settings: saved });
 };
 
 export default function SettingsPage() {
