@@ -1,0 +1,7 @@
+api_version = "2025-07"
+
+[[extensions]]
+name = "Variant Images Theme"
+handle = "variant-images-theme"
+uid = "06495aff-e1d7-e826-ed3d-10f333f67d2b1037b8bf"
+type = "theme_app_extension"

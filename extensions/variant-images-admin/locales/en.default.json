@@ -1,0 +1,17 @@
+{
+  "title": "Variant Images Mapper",
+  "variants_heading": "1. Select a Variant",
+  "select_variant_label": "Variant",
+  "images_heading": "2. Assign Images",
+  "images_hint": "Click images to toggle",
+  "images_assigned": "{{count}} image(s) assigned",
+  "no_variants": "No variants found on this product.",
+  "no_images": "No images on this product. Upload images first.",
+  "selected_badge": "✓ On",
+  "unselected_badge": "–",
+  "save": "Save Mappings",
+  "saving": "Saving…",
+  "save_success": "Mappings saved successfully.",
+  "save_error": "Failed to save. Please try again.",
+  "load_error": "Failed to load product data."
+}

@@ -1,0 +1,63 @@
+{% comment %}
+  Variant Images Filter Block
+  ─────────────────────────────────────────────────────────────────────────────
+  Add this block to your product template via Online Store > Customize.
+  It filters the image gallery to show only the images assigned to the
+  currently selected variant.
+
+  Requires the "Variant Images Mapper" Admin Block to be configured for
+  each product.
+{% endcomment %}
+
+{% assign vi_map = product.metafields.variant_images.image_map %}
+{% assign vi_settings = shop.metafields.variant_images.settings %}
+
+{% if vi_map != blank %}
+  {%- comment -%}
+    Build the data payload for the storefront JS.
+    We embed:
+      mapping   – variantNumId → [imgNumId, ...]
+      imageUrls – imgNumId → cleaned CDN URL (no size params)
+  {%- endcomment -%}
+
+  <script id="variant-image-data" type="application/json">
+    {
+      "mapping": {{ vi_map.value | json }},
+      "settings":
+      {% if vi_settings != blank %}
+        {{ vi_settings.value | json }},
+      {% else %}
+        {"enabled":true,"allowSharedImages":true,"hideUnassignedImages":false},
+      {% endif %}
+      "optionNames": {{ product.options | json }},
+      "variantOptions": {
+        {% for variant in product.variants %}
+          "{{ variant.id }}": {{ variant.options | json }}
+          {%- unless forloop.last %},{% endunless %}
+        {% endfor %}
+      },
+      "imageUrls": {
+        {% for image in product.images %}
+          "{{ image.id }}": {{ image.src | split: '?' | first | json }}
+          {%- unless forloop.last %},{% endunless %}
+        {% endfor %}
+      },
+      "initialVariantId": "{{ product.selected_or_first_available_variant.id }}"
+    }
+  </script>
+
+  <script src="{{ 'variant-images.js' | asset_url }}" defer></script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Variant Images Filter",
+  "target": "section",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Filters the product image gallery to show only the images assigned to the selected variant. Configure mappings on the product page using the Variant Images Mapper block."
+    }
+  ]
+}
+{% endschema %}

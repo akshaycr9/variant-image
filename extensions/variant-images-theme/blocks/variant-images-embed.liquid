@@ -1,0 +1,50 @@
+{% comment %}
+  Variant Images Filter (App Embed)
+  Enables storefront filtering from Theme Editor -> App embeds.
+{% endcomment %}
+
+{% if template.name == 'product' and product %}
+  {% assign vi_map = product.metafields.variant_images.image_map %}
+  {% assign vi_settings = shop.metafields.variant_images.settings %}
+
+  {% if vi_map != blank %}
+    <script id="variant-image-data" type="application/json">
+      {
+        "mapping": {{ vi_map.value | json }},
+        "settings":
+        {% if vi_settings != blank %}
+          {{ vi_settings.value | json }},
+        {% else %}
+          {"enabled":true,"allowSharedImages":true,"hideUnassignedImages":false},
+        {% endif %}
+        "optionNames": {{ product.options | json }},
+        "variantOptions": {
+          {% for variant in product.variants %}
+            "{{ variant.id }}": {{ variant.options | json }}
+            {%- unless forloop.last %},{% endunless %}
+          {% endfor %}
+        },
+        "imageUrls": {
+          {% for image in product.images %}
+            "{{ image.id }}": {{ image.src | split: '?' | first | json }}
+            {%- unless forloop.last %},{% endunless %}
+          {% endfor %}
+        },
+        "initialVariantId": "{{ product.selected_or_first_available_variant.id }}"
+      }
+    </script>
+
+    <script src="{{ 'variant-images.js' | asset_url }}" defer></script>
+  {% endif %}
+{% endif %}
+
+{% schema %}
+{
+  "name": "Variant Images Embed",
+  "target": "body",
+  "enabled_on": {
+    "templates": ["product"]
+  },
+  "settings": []
+}
+{% endschema %}

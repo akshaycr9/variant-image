@@ -1,0 +1,10 @@
+{
+  "name": "variant-images-admin",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@shopify/ui-extensions-react": "2025.7.4",
+    "react-reconciler": "0.29.2"
+  }
+}

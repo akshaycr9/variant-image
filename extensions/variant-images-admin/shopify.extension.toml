@@ -1,0 +1,14 @@
+api_version = "2025-07"
+
+[[extensions]]
+name = "Variant Images Mapper"
+handle = "variant-images-mapper"
+uid = "27122ccb-5148-5092-009a-6de40477221766a066a5"
+type = "ui_extension"
+
+  [[extensions.targeting]]
+  module = "./src/BlockExtension.jsx"
+  target = "admin.product-details.block.render"
+
+[extensions.capabilities]
+api_access = true
