@@ -42,7 +42,7 @@ export const loader = async ({ request }) => {
   const setupSteps = [
     {
       key: "theme",
-      label: "Activate Variant Images Filter Embed in Theme Editor",
+      label: "Activate Variant Lens Embed in Theme Editor",
       complete: embedStatus.enabled,
     },
     {
@@ -104,7 +104,7 @@ export default function DashboardPage() {
 
   return (
     <Page>
-      <TitleBar title="Variant Images" />
+      <TitleBar title="Variant Lens" />
       <BlockStack gap="500">
         <Layout>
           <Layout.Section>
@@ -113,7 +113,7 @@ export default function DashboardPage() {
                 <InlineStack align="space-between" blockAlign="center">
                   <div>
                     <Text as="h2" variant="headingLg">
-                      Variant Images &amp; Swatch
+                      Variant Lens
                     </Text>
                     <Text as="p" tone="subdued">
                       Show only relevant gallery images for the currently selected variant.
@@ -213,7 +213,7 @@ export default function DashboardPage() {
                     Theme activation
                   </Text>
                   <Text as="p" tone="subdued">
-                    Enable the <strong>Variant Images Filter Embed</strong> in Theme Editor → App embeds.
+                    Enable the <strong>Variant Lens Embed</strong> in Theme Editor → App embeds.
                   </Text>
                   <Link url="shopify:admin/themes/current/editor" removeUnderline>
                     Open Theme Editor

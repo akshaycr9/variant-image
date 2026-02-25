@@ -1,5 +1,5 @@
 {
-  "name": "variant-images-app",
+  "name": "variant-lens",
   "private": true,
   "scripts": {
     "build": "remix vite:build",
